@@ -632,5 +632,61 @@ public ReportCard(String name, int num){
     this.subArray = new Subject[num];
 }
 
+Queue<String> q = new Queue<>();
+Node<Queue<String>> NQ = new Node<>(q);
+
+
+public static Node<String> uniqueStrings(Node<Queue<String>> lq){
+    Node<Queue<String>> tempLQ = lq;
+    Queue<String> tempQ = new Queue<String>();
+    Node<String> returnedLst = new Node<String>(null);
+    Node<String> temp = returnedLst;
+    String val;
+    while(tempLQ != null){
+        while(!tempLQ.getValue().isEmpty()){
+            val = tempLQ.getValue().head();
+            tempQ.insert(tempLQ.getValue().remove());
+            while(temp != null){
+                if(val == temp.getValue()){
+                    //////////////
+                }
+                else{
+                    // run while until the end and connect
+                    temp.setNext(new Node<String>(val));
+                }
+            }
+        }
+        while(!tempQ.isEmpty()){
+            tempLQ.getValue().insert(tempQ.remove());
+        }
+    }
+}
+
+
+public static Node<Integer> conseqNum(Node<Integer> lst, int num){
+    int sum = 0;
+    Node<Integer> tmp1 = lst;
+    Node<Integer> tmp2 = lst;
+    while(tmp1 != null){
+        while(sum < num && tmp2 != null){
+            sum += tmp2.getValue();
+            if(sum == num)
+                return tmp1;
+            tmp2 = tmp2.getNext();
+        }
+        tmp1 = tmp1.getNext();
+        tmp2 = tmp1;
+        sum = 0;
+    }
+    return null;
+}
+
+
+public static int sumNumLists(Queue<Node<Integer>> ql, int num){
+    if(ql.isEmpty())
+        return 0;
+    if(conseqNum(ql.remove(), num) != null)
+        return sumNumLists(ql, num) + 1;
+}
 
 
