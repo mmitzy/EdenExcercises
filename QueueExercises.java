@@ -689,4 +689,44 @@ public static int sumNumLists(Queue<Node<Integer>> ql, int num){
         return sumNumLists(ql, num) + 1;
 }
 
+public static Student longestWaitingStudent(Queue<Student> studentQ){
+    Queue<Student> tempQ = new Queue<>();
+    int maxWaitTime = Integer.MIN_VALUE;
+    Student returnedStudent;
+    while(!studentQ.isEmpty()){
+        if(studentQ.head().getWaitingTime() > maxWaitTime){
+            maxWaitTime = studentQ.head().getWaitingTime();
+        } 
+        tempQ.insert(studentQ.remove());
+    }
+    while(!tempQ.isEmpty()){
+        if(tempQ.head().getWaitingTime == maxWaitTime){
+            returnedStudent = new Student(tempQ.remove());
+            break;
+        }
+        studentQ.insert(tempQ.remove());
+    }
+    while(!tempQ.isEmpty){
+        studentQ.insert(tempQ.remove());
+    }
+    return returnedStudent;
+}
 
+public static Queue<Student> secondQuestion (Queue<Student> studentQ){
+
+}
+
+
+while(!studentQ.isEmpty())
+    if(studentQ.head().isHonors())
+        tempHonors.insert(studentQ.remove())
+    else
+        tempNonHonors.insert(studentQ.remove())
+
+while(!tempHonors.isEmpty())
+sortedQ.insert(longestWaitingStudent(tempHonors));
+
+while(!tempNonHonors.isEmpty())
+sortedQ.insert(longestWaitingStudent(tempNonHonors));
+
+return sortedQ;
