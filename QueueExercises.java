@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import javax.security.auth.Subject;
+
 public class QueueExercises {
 
     public static int sumQueue(Queue<Integer> q) {
@@ -730,3 +732,81 @@ while(!tempNonHonors.isEmpty())
 sortedQ.insert(longestWaitingStudent(tempNonHonors));
 
 return sortedQ;
+
+
+public static Node<Integer> conseqSum (Node<Integer> lst, int num){
+    int sum = 0;
+    Node<Integer> tmp1 = lst;
+    Node<Integer> tmp2 = lst;
+    while(tmp1 != null){
+        while(sum < num && tmp2 != null){
+            sum += tmp2.getValue();
+            if(sum == num)
+                return tmp1;
+            tmp2 = tmp2.getNext();
+        }
+        tmp1 = tmp1.getNext();
+        tmp2 = tmp1;
+        sum = 0;
+    }
+    return null;
+}
+
+public static int countConseqSum(Queue<Node<Integer>> ql, int num){
+    if(ql.isEmpty())
+        return 0;
+    if(conseqSum(ql.remove(), num) != null)
+        return countConseqSum(ql, num) + 1;
+    return countConseqSum(ql, num);
+}
+
+public static void fun2 (BinNode<Integer>bt,Queue<Integer>q, int n)
+{
+     if (bt != null){
+        if (n % 2 == 0)
+            q.insert(bt.getValue());
+        fun2 (bt.getLeft(), q, n+1);
+        fun2 (bt.getRight(), q, n+1);
+    }    	
+}
+public static boolean fun1 (BinNode<Integer> bt)
+{
+   Queue<Integer> q=new Queue<Integer>();
+   fun2 (bt, q, 0);
+   return fun3 (q);
+}
+
+public static boolean fun3 (Queue<Integer> q)
+{
+while (!q.isEmpty())
+{
+  	int x = q.remove();
+  	if (! q.isEmpty() && x >= q.head())
+       		return false;
+}
+            return true;
+}
+// fun1(tr)
+
+//.                 3
+//               6     2
+//            4.   6.    1
+//                9 7.
+//                  
+// q = 3 -> 4 -> 7 -> 2 -> 1
+//
+// fun3 - > O(n)
+// fun2 - > O(n) - 
+// fun1 - > O(n) + O(n) = O(n)
+
+public static boolean posOrder(int[] arr){
+    int previous = 0;
+    for(int i = 0; i < arr.length; i++){
+        if(arr[i] < previous && arr[i] > 0)
+            return false;
+        if(arr[i] > 0)
+            previous = arr[i];
+    }
+    return true;
+}
+
