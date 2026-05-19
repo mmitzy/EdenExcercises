@@ -10,23 +10,39 @@ public class Store {
     }
 
     public int remove(int n, int pr){
-        int count = 0;
-        while(lst.getValue().getPrice() == pr && n != count && lst != null){
+       int count = 0;
+       while(lst != null && count != n && lst.getValue().getPrice() == pr){
+        lst = lst.getNext();
+        count++;
+       }
+       Node<Game> temp = lst;
+       while(count != n && temp.getNext() != null){
+        if(temp.getNext().getValue().getPrice() == pr){
             count++;
-            lst = lst.getNext();
+            temp.setNext(temp.getNext().getNext());
         }
-        if(lst == null || n == count){
-            return count;
-        }
-        Node<Game> temp = lst;
-        while(n != count && temp.getNext() != null){
-            if(temp.getNext().getValue().getPrice() == pr){
-                count++;
-                temp.setNext(temp.getNext().getNext());
-            } else {
-                temp = temp.getNext();
-            }
-        }
-        return count;
+        temp = temp.getNext();
+       }
+       return count;
     }
 
+    public int removeCheap(int num){
+        int gamesSum = 0;
+        int currentMin = lst.getValue().getPrice();
+        Node<Game> temp = lst;
+        while(num != 0){
+            while(temp != null){
+                if(currentMin > temp.getValue().getPrice()){
+                    currentMin = temp.getValue().getPrice();
+                }
+                temp = temp.getNext();
+            }
+            temp = lst;
+            int numRemoved = remove(num, currentMin);
+            num -= numRemoved;
+            gamesSum =+ numRemoved * currentMin;
+            currentMin = lst.getValue().getPrice();
+        }
+        return gamesSum;
+    }
+}
