@@ -810,3 +810,61 @@ public static boolean posOrder(int[] arr){
     return true;
 }
 
+public static int discount (int age, int kids, boolean city){
+    int discountCode;
+    if (age > 70)
+        discountCode = 100;
+    else
+        discountCode = 200;
+
+    if (kids >= 3)
+        discountCode = discountCode + 10;
+    else
+        discountCode = discountCode + 20;
+
+    if (city)
+        discountCode = discountCode + 1;
+    else
+        discountCode = discountCode + 2;
+
+    return discountCode;
+}
+
+
+public static int[] discountCounter (int[] arr){
+    int[] returnedArr = new int[3];
+    int num1, num2, num3;
+    for (int i = 0; i < returnedArr.length; i++){
+        returnedArr[i] = 0;
+    }
+
+    for (int j = 0; j < arr.length; j++){
+        num1 = arr[j] % 10;
+        num2 = (arr[j] / 10) % 10;
+        num3 = arr[j] / 100;
+        if(num1 == 1)
+            returnedArr[2]++;
+        if(num2 == 1)
+            returnedArr[1]++;
+        if(num3 == 1)
+            returnedArr[0]++;
+    }
+
+    return returnedArr;
+}
+
+public static Queue<Room> distribute (Queue<User> q, int x){
+    int numOfRooms = q.size()/x;
+    if (q.size()%x > 0)
+        numOfRooms++;
+    Queue<Room> roomQ = new Queue<>();
+    for(int i = 0; i < numOfRooms; i++){
+        Room tempRoom = new Room(i+1);
+        for(int j = 0; j < x; j++){
+            if(!q.isEmpty)
+                tempRoom(addUser(q.remove));
+        }
+        roomQ.insert(tempRoom);
+    }
+    return roomQ;
+}
