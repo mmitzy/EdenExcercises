@@ -868,3 +868,55 @@ public static Queue<Room> distribute (Queue<User> q, int x){
     }
     return roomQ;
 }
+
+public static int secret(Queue<Integer> q){
+    if (q.isEmpty())
+        return -1;
+    int x = q.remove();
+    if (q.isEmpty())
+        return x;
+    int y = secret(q);
+    q.insert(x);
+    return y;
+}
+
+public static boolean mystery(Queue<Integer> q, int c){
+    if (c == 0 || q.isEmpty())
+        return true;
+    int x = q.remove();
+    if (q.isEmpty())
+        return false;
+    int y = secret(q);
+    if (x == y)
+        return mystery(q, c - 1);
+    return false;
+}
+
+
+// q1: 6 -> 3 -> 2
+// y = 1
+// secret: returns the end of queue, and reverses it
+
+// q2: 2 -> 4 -> 7 -> 2
+// (5 + n + 1)n = 5n + n^2 + n = 6n + n^2 = O(n^2)
+// acc. acac. abbbbcbbbbbbbabbbcaaaa
+// abcabcabcabacbacbacbacabcabcacc.  acc accaccaccbac
+// aabcabcabcabcabcabcabcc abbacc
+// a^2 b^2 c^2   {aa,bb,cc,dd}
+// aa bb cc
+// the word abcc E L1
+// but abcc E L2 because it doesn't have acc
+// s1 = ab, s2 = cd => s1 + s2 = abcd
+// L = ab, bc, ca
+// R(L) = ba, cb, ac
+
+
+// L3 = {aWc | that W E {a,b,c}*}
+// R(L3) = {cWa | """"""""}
+
+// L3 * R(L3) = {a(W1)cc(W2)a | W1 E {a,b,c}* , W2 E {a,b,c}*}
+// {a^n} cut {b^n} = {empty} 
+
+// L4 = {a^(n/2)b^(m+2)c^n | m>=0, n>0, n is even}
+// R(L5) = {a^n b^m w | w E {a,c}* , m,n>=0}
+// prove that L4 is inside of R(L5)
