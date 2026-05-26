@@ -909,7 +909,7 @@ public static boolean mystery(Queue<Integer> q, int c){
 // s1 = ab, s2 = cd => s1 + s2 = abcd
 // L = ab, bc, ca
 // R(L) = ba, cb, ac
-
+    
 
 // L3 = {aWc | that W E {a,b,c}*}
 // R(L3) = {cWa | """"""""}
@@ -920,3 +920,32 @@ public static boolean mystery(Queue<Integer> q, int c){
 // L4 = {a^(n/2)b^(m+2)c^n | m>=0, n>0, n is even}
 // R(L5) = {a^n b^m w | w E {a,c}* , m,n>=0}
 // prove that L4 is inside of R(L5)
+
+
+public void insertNum(int x){
+    Node<NumCount> temp = this.lst;
+    if(temp.getValue().getNum() > x){
+        Node<NumCount> newNode = new Node<>(new NumCount(x, 1));
+        newNode.setNext(temp);
+        this.lst = newNode;
+    }
+    else if(temp.getValue().getNum() == x){
+        temp.getValue().getCount()++;
+    }
+    while(temp.getNext() != null){
+        if(temp.getNext().getValue().getNum() > x){
+            Node<NumCount> newNode = new Node<>(new NumCount(x, 1));
+            newNode.setNext(temp.getNext());
+            temp.setNext(newNode);
+            break;
+        }
+        else if(temp.getNext().getValue().getNum() == x){
+            temp.getNext().getValue().getCount()++;
+            break;
+        }
+        temp = temp.getNext();
+    }
+    if(temp.getNext() == null){
+        temp.setNext(new Node<>(new NumCount(x, 1)));
+    }
+}
