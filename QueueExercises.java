@@ -917,9 +917,14 @@ public static boolean mystery(Queue<Integer> q, int c){
 // L3 * R(L3) = {a(W1)cc(W2)a | W1 E {a,b,c}* , W2 E {a,b,c}*}
 // {a^n} cut {b^n} = {empty} 
 
+
+
+
+
+
 // L4 = {a^(n/2)b^(m+2)c^n | m>=0, n>0, n is even}
 // R(L5) = {a^n b^m w | w E {a,c}* , m,n>=0}
-// prove that L4 is inside of R(L5)
+
 
 
 public void insertNum(int x){
@@ -948,4 +953,127 @@ public void insertNum(int x){
     if(temp.getNext() == null){
         temp.setNext(new Node<>(new NumCount(x, 1)));
     }
+}
+
+public void priorityInsert(Patient p){
+    Queue<Patient> temp = new Queue<>();
+    while(!q.isEmpty() && q.head().getPriority >= p.getPriority){
+        temp.insert(q.remove());
+    }
+    temp.insert(p);
+
+    while(!q.isEmpty()){
+        temp.insert(q.remove());
+    }
+
+    while(!temp.isEmpty()){
+        q.insert(temp.remove());
+    }
+}
+
+public void update (int id, int pri){
+    Queue<Patient> temp = new Queue<>();
+    while(!q.isEmpty() && q.head().getId != id){
+        temp.insert(q.remove());
+    }
+    Patient newPriPatient = q.remove();
+    newPriPatient.setPriority(pri);
+    while(!q.isEmpty()){
+        temp.insert(q.remove());
+    }
+    while(!temp.isEmpty()){
+        q.insert(temp.remove());
+    }
+    q.priorityInsert(newPriPatient);
+}
+
+public static int sod1(Queue<Integer> q)
+{
+    int i = q.remove();
+    int result = i;
+
+    if (!q.isEmpty())
+    {
+        int j = sod1(q);
+        if (result > j)
+            result = j;
+    }
+
+    q.insert(i);
+    return result;
+}
+
+
+// myQueue : 2 -> 31 -> 4 -> 17 -> 5
+// 2
+
+// sod1: input -> תור
+// output -> הופך את התור ומחזיר את הכי קטן בתור 
+
+
+
+/**
+ * The function receives a number greater than or equal to 0
+ * and returns...
+ */
+public static int sod2(int i)
+{
+    if (i == 0)
+        return 0;
+
+    int a = i % 10;
+    int b = sod2(i / 10);
+
+    if (a > b)
+        return a;
+
+    return b;
+}
+
+public static boolean rankedQueue (Queue<Integer> q){
+    Queue<Integer> temp = new Queue<>();
+    int counterPrevious = 0, counterNow;
+    boolean flag = true;
+    while(!q.isEmpty()){
+        counterNow = 0;
+        int currentHead = q.head();
+        while(q.head() == currentHead){
+            counterNow++;
+            temp.insert(q.remove());
+            if(q.isEmpty())
+                break;
+        }
+        if (counterNow <= counterPrevious){
+            flag = false;
+        }
+        counterPrevious = counterNow;
+    }
+    while(!temp.isEmpty()){
+        q.insert(temp.remove());
+    }
+    return flag;
+}
+
+public static boolean isArranged(Node<Integer> lst){
+    Node<Integer> pos = lst;
+    int counter = 0;
+    int max = Integer.MIN_VALUE;
+    while(pos != null){
+        counter++;       
+    }
+    pos = lst;
+    if(counter % 2 != 0)
+        return false;
+
+    for(int i = 0; i < counter/2; i++){
+        if (max < pos.getValue())
+            max = pos.getValue();
+        pos = pos.getNext();
+    }
+    for(int j = 0; j < counter/2; j++){
+        if(max >= pos.getValue())
+            return false;
+        pos = pos.getNext();
+    }
+    return true;
 }
